@@ -1,0 +1,15 @@
+[package]
+name = "mypub-encryptor"
+version = "0.1.0"
+authors = ["Yepeng Ding <yepengding@g.ecc.u-tokyo.ac.jp>"]
+edition = "2018"
+license = "MIT"
+repository = "https://github.com/yepengding/MyPubEncryptor"
+readme = "README.md"
+
+[dependencies]
+age = "0.6.0"
+secrecy = "0.7"
+uuid = { version = "0.8", features = ["serde", "v4"] }
+sha3 = "0.9.1"
+clap = "3.0.0-beta.4"
