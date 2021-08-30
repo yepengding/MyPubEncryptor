@@ -20,6 +20,11 @@ OPTIONS:
     -o, --output <OUTPUT DIR>    Sets your output directory
 ```
 
+## Dependency
+
+- [Git](https://git-scm.com/)
+- [Rust Compiler](https://www.rust-lang.org/)
+
 ## Flow
 
 1. Parse CLI argument to `Config` struct;

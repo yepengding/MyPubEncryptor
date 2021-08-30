@@ -104,6 +104,7 @@ mod tests {
         let config = Config {
             file_path: String::from("./Cargo.toml"),
             private_key: String::from("a private key"),
+            decryptor_script: String::from(""),
             output_dir: String::from("./"),
         };
 
