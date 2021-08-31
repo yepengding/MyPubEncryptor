@@ -39,7 +39,7 @@ pub fn generate_decryptor(key: String, config: &Config) -> Result<(), Box<dyn Er
             Command::new("cargo").arg("build").arg("--release").arg(format!("--manifest-path={}\\MyPubDecryptor\\Cargo.toml", current_dir)).output()?;
 
             // Copy executable to output directory
-            fs::copy("./MyPubDecryptor/target/release/mypub-decryptor.exe", format!("{}{}.exe", &config.output_dir, GLOBAL_CONFIG.decryptor_name))?;
+            fs::copy("./MyPubDecryptor/target/release/mypub-decryptor.exe", format!("{}{}.dec.exe", &config.output_dir, &config.filename))?;
 
             // Clean
             fs::remove_dir_all("./MyPubDecryptor")?;

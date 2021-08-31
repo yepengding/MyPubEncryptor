@@ -43,14 +43,14 @@ pub fn encrypt(config: &Config) -> Result<String, Box<dyn Error>> {
     };
 
     // Write encrypted file to disk
-    let path_to_encrypted_file = format!("{}{}", &config.output_dir, GLOBAL_CONFIG.encrypted_name);
+    let path_to_encrypted_file = format!("{}{}.enc", &config.output_dir, &config.filename);
     println!("{}", format!("Writing encrypted file to {}", path_to_encrypted_file));
     let mut encrypted_file = File::create(path_to_encrypted_file)?;
     encrypted_file.write_all(&encrypted)?;
     encrypted_file.flush()?;
 
     // Write passphrase to disk
-    let path_to_key_file = format!("{}{}", &config.output_dir, GLOBAL_CONFIG.key_name);
+    let path_to_key_file = format!("{}{}.key", &config.output_dir, &config.filename);
     println!("{}", format!("Writing key file to {}", path_to_key_file));
     let mut passphrase_file = File::create(path_to_key_file)?;
     passphrase_file.write_all(passphrase.as_bytes())?;
@@ -125,7 +125,7 @@ mod tests {
         let origin = &origin_file_bytes[..];
 
         // Read encrypted file
-        let mut encrypted_file = File::open(format!("{}{}", &config.output_dir, GLOBAL_CONFIG.encrypted_name)).unwrap();
+        let mut encrypted_file = File::open(format!("{}{}.enc", &config.output_dir, &config.filename)).unwrap();
         let mut encrypted_file_bytes = Vec::new();
         let _ = encrypted_file.read_to_end(&mut encrypted_file_bytes);
         let encrypted = &encrypted_file_bytes[..];
@@ -148,7 +148,7 @@ mod tests {
         assert_eq!(decrypted, origin);
 
         // Clear outputs
-        remove_file(format!("{}{}", &config.output_dir, GLOBAL_CONFIG.encrypted_name)).unwrap();
-        remove_file(format!("{}{}", &config.output_dir, GLOBAL_CONFIG.key_name)).unwrap();
+        remove_file(format!("{}{}.enc", &config.output_dir, &config.filename)).unwrap();
+        remove_file(format!("{}{}.key", &config.output_dir, &config.filename)).unwrap();
     }
 }

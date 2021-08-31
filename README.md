@@ -33,7 +33,7 @@ OPTIONS:
 3. Generate passphrase from `GLOBAL_CONFIG`, `private_key`, and random identifier;
 4. Encrypt file with passphrase;
 5. Generate decryptor;
-6. Output `encrypted file`, `key (passphrase)`, and `decryptor`.
+6. Output `encrypted file (.enc)`, `key (.key)`, and `decryptor (.dec[.exe])`.
 
 ## Development
 
@@ -42,8 +42,8 @@ OPTIONS:
 > config.rs
 
 - `network` Ethereum network
-- `encrypted_name` Output encrypted filename
-- `key_name` Output key name
+- `contract_address` Deployed publication contract address
+- `decryptor` Decryptor repository
 
 ### Run tests
 
