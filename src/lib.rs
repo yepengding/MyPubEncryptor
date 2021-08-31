@@ -9,8 +9,8 @@ pub mod generator;
 #[derive(Debug)]
 pub struct Config {
     pub file_path: String,
+    pub filename: String,
     pub private_key: String,
-    pub decryptor_script: String,
     pub output_dir: String,
 }
 
@@ -24,18 +24,17 @@ pub fn init_cli() -> Config {
             .about("Sets an input file path")
             .required(true)
             .index(1))
+        .arg(Arg::new("filename")
+            .short('n')
+            .long("name")
+            .value_name("FILENAME")
+            .about("Sets a filename after decryption")
+            .takes_value(true))
         .arg(Arg::new("private_key")
             .short('k')
             .long("key")
             .value_name("PRIVATE KEY")
             .about("Sets your private key")
-            .takes_value(true)
-            .required(true))
-        .arg(Arg::new("decryptor_script")
-            .short('d')
-            .long("decryptor")
-            .value_name("DECRYPTOR SCRIPT")
-            .about("Sets your path to decryptor script")
             .takes_value(true)
             .required(true))
         .arg(Arg::new("output_dir")
@@ -48,8 +47,8 @@ pub fn init_cli() -> Config {
 
     let mut config = Config {
         file_path: "".to_string(),
+        filename: "decrypted_file".to_string(),
         private_key: "".to_string(),
-        decryptor_script: "".to_string(),
         output_dir: "./".to_string(),
     };
 
@@ -57,12 +56,16 @@ pub fn init_cli() -> Config {
         config.file_path = String::from(file_path);
     }
 
+    if let Some(filename) = matches.value_of("filename") {
+        config.filename = String::from(filename);
+    }
+
     if let Some(private_key) = matches.value_of("private_key") {
         config.private_key = String::from(private_key);
     }
 
-    if let Some(decryptor_script) = matches.value_of("decryptor_script") {
-        config.decryptor_script = String::from(decryptor_script);
+    if let Some(output_dir) = matches.value_of("output_dir") {
+        config.output_dir = String::from(output_dir);
     }
 
     config

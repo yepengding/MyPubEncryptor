@@ -14,6 +14,7 @@ use crate::utils::get_uuid;
 /// * `config` - A config struct reference
 pub fn encrypt(config: &Config) -> Result<String, Box<dyn Error>> {
     // Read file
+    println!("Loading file");
     let mut file = File::open(&config.file_path)?;
     let mut file_bytes = Vec::new();
     let _ = file.read_to_end(&mut file_bytes);
@@ -21,6 +22,7 @@ pub fn encrypt(config: &Config) -> Result<String, Box<dyn Error>> {
     let plaintext = &file_bytes[..];
 
     // Generate passphrase (i.e., key)
+    println!("Generating passphrase");
     let mut hasher = Sha3_256::new();
     let passphrase_components = format!("{}/{}/{}", GLOBAL_CONFIG.network, get_uuid(), &config.private_key);
     hasher.update(passphrase_components.as_bytes());
@@ -28,6 +30,7 @@ pub fn encrypt(config: &Config) -> Result<String, Box<dyn Error>> {
     let passphrase = format!("{:x}", result);
 
     // Calculated encrypted file
+    println!("Encrypting file");
     let encrypted = {
         let encryptor = age::Encryptor::with_user_passphrase(Secret::new(passphrase.to_owned()));
 
@@ -40,12 +43,16 @@ pub fn encrypt(config: &Config) -> Result<String, Box<dyn Error>> {
     };
 
     // Write encrypted file to disk
-    let mut encrypted_file = File::create(format!("{}{}", &config.output_dir, GLOBAL_CONFIG.encrypted_name))?;
+    let path_to_encrypted_file = format!("{}{}", &config.output_dir, GLOBAL_CONFIG.encrypted_name);
+    println!("{}", format!("Writing encrypted file to {}", path_to_encrypted_file));
+    let mut encrypted_file = File::create(path_to_encrypted_file)?;
     encrypted_file.write_all(&encrypted)?;
     encrypted_file.flush()?;
 
     // Write passphrase to disk
-    let mut passphrase_file = File::create(format!("{}{}", &config.output_dir, GLOBAL_CONFIG.key_name))?;
+    let path_to_key_file = format!("{}{}", &config.output_dir, GLOBAL_CONFIG.key_name);
+    println!("{}", format!("Writing key file to {}", path_to_key_file));
+    let mut passphrase_file = File::create(path_to_key_file)?;
     passphrase_file.write_all(passphrase.as_bytes())?;
     encrypted_file.flush()?;
 
@@ -102,10 +109,10 @@ mod tests {
     fn file_encryption_correct() {
         // Simulate a configuration
         let config = Config {
-            file_path: String::from("./Cargo.toml"),
-            private_key: String::from("a private key"),
-            decryptor_script: String::from(""),
-            output_dir: String::from("./"),
+            file_path: "./Cargo.toml".to_string(),
+            filename: "Cargo.toml".to_string(),
+            private_key: "a private key".to_string(),
+            output_dir: "./".to_string(),
         };
 
         // Encrypt the input file

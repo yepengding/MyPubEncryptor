@@ -6,7 +6,7 @@ Encryptor of MyPub Cipher Suite.
 
 ```
 USAGE:
-    mypub-encryptor(.exe) [OPTIONS] --key <PRIVATE KEY> <FILE>
+    mypub-encryptor.exe [OPTIONS] --key <PRIVATE KEY> <FILE>
 
 ARGS:
     <FILE>    Sets an input file path
@@ -16,7 +16,8 @@ FLAGS:
     -V, --version    Print version information
 
 OPTIONS:
-    -k, --key <PRIVATE KEY>       Sets your private key
+    -k, --key <PRIVATE KEY>      Sets your private key
+    -n, --name <FILENAME>        Sets a filename after decryption
     -o, --output <OUTPUT DIR>    Sets your output directory
 ```
 
@@ -36,16 +37,30 @@ OPTIONS:
 
 ## Development
 
+### Configuration
+
+> config.rs
+
+- `network` Ethereum network
+- `encrypted_name` Output encrypted filename
+- `key_name` Output key name
+
 ### Run tests
 
 ```shell
 cargo test
 ```
 
-### Build
+### Build Debug
 
 ```shell
 cargo build
+```
+
+### Build Release
+
+```shell
+cargo build --release
 ```
 
 ## Reference
