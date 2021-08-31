@@ -8,14 +8,22 @@ fn main() {
     let config = init_cli();
 
     // Do encryption
-    let key = encrypt(&config).unwrap();
-    // match encrypt(&config) {
-    //     Ok(passphrase) => println!("Encrypted successfully! \n\
-    //     Please securely store your key ({}).", passphrase),
-    //     Err(e) => println!("{}", e),
-    // };
+    let key = match encrypt(&config) {
+        Ok(k) => k,
+        Err(e) => {
+            eprintln!("{}", e);
+            "".to_string()
+        }
+    };
+
+    if key == "" {
+        eprintln!("Failed to encrypt the input file");
+        return;
+    }
+
+    // Generate decryptor
     match generate_decryptor(key, &config) {
         Ok(_) => println!("Encrypted successfully!"),
-        Err(e) => println!("{}", e),
+        Err(e) => eprintln!("{}", e),
     }
 }
