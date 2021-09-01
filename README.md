@@ -63,6 +63,9 @@ cargo build
 cargo build --release
 ```
 
+## UI
+![UI](./doc/ui.png)
+
 ## MyPub Components
 
 * [MyPub Front + Chain Linker](https://github.com/yepengding/MyPub/tree/main/ui)
